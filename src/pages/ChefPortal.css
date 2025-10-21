@@ -1,0 +1,43 @@
+.chef-portal {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.portal-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.portal-header h1 {
+  color: #2c3e50;
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.portal-header p {
+  color: #666;
+  font-size: 1.1rem;
+}
+
+.btn-add-meal {
+  background-color: #27ae60;
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+  transition: background-color 0.2s;
+}
+
+.btn-add-meal:hover {
+  background-color: #229954;
+}
+
+.section-title {
+  color: #2c3e50;
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+}
