@@ -19,7 +19,7 @@ McShef.com is a Single Page Application (SPA) that connects talented home chefs 
 - See revenue split (40% platform fee for delivery and operations)
 
 ### Platform Features
-- Okta authentication integration
+- Auth0 authentication integration
 - Dual portal system (Chef Portal & Customer Portal)
 - Role-based access control
 - Responsive design
@@ -28,7 +28,7 @@ McShef.com is a Single Page Application (SPA) that connects talented home chefs 
 ## Technology Stack
 
 - **Frontend**: React 19 with TypeScript
-- **Authentication**: Okta (OAuth 2.0 / OIDC)
+- **Authentication**: Auth0 (OAuth 2.0 / OIDC)
 - **Routing**: React Router v7
 - **Styling**: CSS3 with responsive design
 - **State Management**: React Context API
@@ -38,7 +38,7 @@ McShef.com is a Single Page Application (SPA) that connects talented home chefs 
 
 - Node.js (v16 or higher)
 - npm (v7 or higher)
-- Okta developer account (for authentication)
+- Auth0 account (for authentication)
 
 ## Setup Instructions
 
@@ -55,24 +55,26 @@ cd mcshefcopilot
 npm install
 ```
 
-### 3. Configure Okta Authentication
+### 3. Configure Auth0 Authentication
 
-1. Create a free Okta developer account at https://developer.okta.com
-2. Create a new Single Page Application in your Okta dashboard
-3. Note your Okta domain and Client ID
-4. Add `http://localhost:3000/login/callback` to the Sign-in redirect URIs
-5. Add `http://localhost:3000` to the Sign-out redirect URIs
+1. Create a free Auth0 account at https://auth0.com
+2. Create a new Single Page Application in your Auth0 dashboard
+3. Note your Auth0 domain and Client ID
+4. Add `http://localhost:3000/login/callback` to the Allowed Callback URLs
+5. Add `http://localhost:3000` to the Allowed Logout URLs
+6. Add `http://localhost:3000` to the Allowed Web Origins
 
 ### 4. Set up environment variables
 
 Create a `.env` file in the root directory:
 
 ```env
-REACT_APP_OKTA_CLIENT_ID=your_client_id_here
-REACT_APP_OKTA_ISSUER=https://your-okta-domain/oauth2/default
+REACT_APP_AUTH0_DOMAIN=your-auth0-domain.auth0.com
+REACT_APP_AUTH0_CLIENT_ID=your_client_id_here
+REACT_APP_AUTH0_AUDIENCE=https://your-api-audience (optional)
 ```
 
-Replace `your_client_id_here` and `your-okta-domain` with your actual Okta credentials.
+Replace `your-auth0-domain` and `your_client_id_here` with your actual Auth0 credentials.
 
 ### 5. Run the application
 
@@ -106,7 +108,7 @@ src/
 │   └── shared/            # Shared components
 │       ├── Layout.tsx     # Main layout wrapper
 │       ├── Navigation.tsx # Navigation bar
-│       ├── LoginCallback.tsx # Okta callback handler
+│       ├── LoginCallback.tsx # Auth0 callback handler
 │       └── SecureRoute.tsx   # Protected route wrapper
 ├── context/
 │   └── AuthContext.tsx    # Authentication context
@@ -117,7 +119,7 @@ src/
 ├── types/
 │   └── index.ts          # TypeScript type definitions
 ├── config/
-│   └── okta.ts           # Okta configuration
+│   └── auth0.ts          # Auth0 configuration
 └── App.tsx               # Main app component with routing
 ```
 
@@ -126,7 +128,7 @@ src/
 ### For Chefs
 
 1. Click "Chef Portal" on the home page
-2. Login with your Okta credentials
+2. Login with your Auth0 credentials
 3. Click "Add New Meal" to list a new dish
 4. Fill in meal details:
    - Title (e.g., "Homemade Lasagna")
@@ -141,7 +143,7 @@ src/
 ### For Customers
 
 1. Click "Browse Meals" on the home page
-2. Login with your Okta credentials
+2. Login with your Auth0 credentials
 3. Browse available meals
 4. Use search to find specific meals or chefs
 5. Filter by date to see meals available on specific days
@@ -170,7 +172,7 @@ Currently using localStorage for demo purposes. For production, implement:
 - Payment processing (Stripe, PayPal)
 
 ### Authentication
-Okta integration provides:
+Auth0 integration provides:
 - Secure OAuth 2.0 authentication
 - User profile management
 - Role-based access control

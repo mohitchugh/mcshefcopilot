@@ -2,31 +2,34 @@
 
 ## Prerequisites for Deployment
 
-### 1. Okta Setup
-1. Create an Okta developer account at https://developer.okta.com
-2. Create a new **Single Page Application** in your Okta dashboard
+### 1. Auth0 Setup
+1. Create an Auth0 account at https://auth0.com
+2. Create a new **Single Page Application** in your Auth0 dashboard
 3. Configure the application:
    - **Application Type**: Single Page App (SPA)
-   - **Grant Types**: Authorization Code, Refresh Token
-   - **Sign-in redirect URIs**: 
+   - **Token Endpoint Authentication Method**: None
+   - **Allowed Callback URLs**: 
      - Development: `http://localhost:3000/login/callback`
      - Production: `https://yourdomain.com/login/callback`
-   - **Sign-out redirect URIs**:
+   - **Allowed Logout URLs**:
      - Development: `http://localhost:3000`
      - Production: `https://yourdomain.com`
-   - **Trusted Origins**: Add your domain for both redirect and CORS
+   - **Allowed Web Origins**: 
+     - Development: `http://localhost:3000`
+     - Production: `https://yourdomain.com`
 4. Note your:
    - Client ID
-   - Okta domain (e.g., `dev-12345678.okta.com`)
-   - Issuer URL (e.g., `https://dev-12345678.okta.com/oauth2/default`)
+   - Auth0 domain (e.g., `dev-12345678.us.auth0.com`)
+   - API Audience (optional, if using a custom API)
 
 ### 2. Environment Configuration
 
 Create a `.env` file in the root directory:
 
 ```env
-REACT_APP_OKTA_CLIENT_ID=your_actual_client_id
-REACT_APP_OKTA_ISSUER=https://your-okta-domain/oauth2/default
+REACT_APP_AUTH0_DOMAIN=your-auth0-domain.auth0.com
+REACT_APP_AUTH0_CLIENT_ID=your_actual_client_id
+REACT_APP_AUTH0_AUDIENCE=https://your-api-audience (optional)
 ```
 
 **Important**: Never commit the `.env` file to version control!
@@ -67,12 +70,14 @@ npm run build
 
 3. **Set Environment Variables**:
    - Go to Site settings → Build & deploy → Environment
-   - Add `REACT_APP_OKTA_CLIENT_ID`
-   - Add `REACT_APP_OKTA_ISSUER`
+   - Add `REACT_APP_AUTH0_DOMAIN`
+   - Add `REACT_APP_AUTH0_CLIENT_ID`
+   - Add `REACT_APP_AUTH0_AUDIENCE` (if using)
 
-4. **Update Okta Configuration**:
-   - Add your Netlify URL to Okta redirect URIs
-   - Add to Trusted Origins
+4. **Update Auth0 Configuration**:
+   - Add your Netlify URL to Auth0 Allowed Callback URLs
+   - Add to Allowed Logout URLs
+   - Add to Allowed Web Origins
 
 5. **Deploy**: Netlify will auto-deploy on git push
 
@@ -89,9 +94,9 @@ npm run build
    - Output directory: `build`
 
 3. **Environment Variables**:
-   - Add Okta credentials in project settings
+   - Add Auth0 credentials in project settings
 
-4. **Update Okta**: Add Vercel domain to Okta
+4. **Update Auth0**: Add Vercel domain to Auth0 allowed URLs
 
 ### Option 3: AWS S3 + CloudFront
 
@@ -114,7 +119,7 @@ npm run build
    - Build with environment variables set
    - Or use AWS Systems Manager Parameter Store
 
-5. **Update Okta**: Add CloudFront URL to Okta
+5. **Update Auth0**: Add CloudFront URL to Auth0 allowed URLs
 
 ### Option 4: Traditional Web Server
 
@@ -155,8 +160,9 @@ npm run build
 
 ## Post-Deployment Checklist
 
-- [ ] Okta redirect URIs updated with production URL
-- [ ] Okta Trusted Origins configured for production domain
+- [ ] Auth0 Allowed Callback URLs updated with production URL
+- [ ] Auth0 Allowed Logout URLs configured for production domain
+- [ ] Auth0 Allowed Web Origins configured for production domain
 - [ ] Environment variables set in deployment platform
 - [ ] HTTPS enabled (required for OAuth)
 - [ ] Test login flow in production
@@ -259,7 +265,7 @@ Before launch:
 
 ### Monthly (Estimated)
 - **Hosting**: $0-50 (Netlify/Vercel free tier)
-- **Okta**: Free up to 1,000 users
+- **Auth0**: Free up to 7,000 active users
 - **Domain**: $10-15/year
 - **SSL**: Free (Let's Encrypt)
 

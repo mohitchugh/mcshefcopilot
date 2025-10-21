@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { useOktaAuth } from '@okta/okta-react';
+import { useAuth0 } from '@auth0/auth0-react';
 import { User } from '../types';
 
 interface AuthContextType {
@@ -14,39 +14,43 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const { oktaAuth, authState } = useOktaAuth();
+  const { user: auth0User, isAuthenticated, isLoading: auth0Loading, loginWithRedirect, logout: auth0Logout } = useAuth0();
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (authState?.isAuthenticated) {
-      oktaAuth.getUser().then((userInfo) => {
-        // Check localStorage for role, default to customer
-        const role = (localStorage.getItem('userRole') as 'chef' | 'customer') || 'customer';
-        
-        setUser({
-          id: userInfo.sub || '',
-          email: userInfo.email || '',
-          name: userInfo.name || '',
-          role,
-        });
-        setIsLoading(false);
-      }).catch(() => {
-        setIsLoading(false);
+    if (isAuthenticated && auth0User) {
+      // Check localStorage for role, default to customer
+      const role = (localStorage.getItem('userRole') as 'chef' | 'customer') || 'customer';
+      
+      setUser({
+        id: auth0User.sub || '',
+        email: auth0User.email || '',
+        name: auth0User.name || '',
+        role,
       });
+      setIsLoading(false);
     } else {
       setUser(null);
-      setIsLoading(false);
+      setIsLoading(auth0Loading);
     }
-  }, [authState, oktaAuth]);
+  }, [isAuthenticated, auth0User, auth0Loading]);
 
   const login = () => {
-    oktaAuth.signInWithRedirect();
+    loginWithRedirect({
+      appState: {
+        returnTo: window.location.pathname,
+      },
+    });
   };
 
   const logout = () => {
     localStorage.removeItem('userRole');
-    oktaAuth.signOut();
+    auth0Logout({
+      logoutParams: {
+        returnTo: window.location.origin,
+      },
+    });
   };
 
   const setUserRole = (role: 'chef' | 'customer') => {
@@ -60,7 +64,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     <AuthContext.Provider
       value={{
         user,
-        isAuthenticated: !!authState?.isAuthenticated,
+        isAuthenticated,
         isLoading,
         login,
         logout,

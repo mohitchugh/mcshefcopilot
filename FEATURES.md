@@ -11,7 +11,7 @@
 - Responsive footer with platform revenue information
 
 ### 2. **Authentication System**
-- **Okta Integration**: Full OAuth 2.0 / OIDC implementation
+- **Auth0 Integration**: Full OAuth 2.0 / OIDC implementation
 - **Protected Routes**: Secure route wrapper for authenticated pages
 - **Role-Based Access**: Separate portals for chefs and customers
 - **Login Callback**: Proper OAuth callback handling
@@ -93,7 +93,7 @@
 ### 9. **Technical Implementation**
 - **React 19**: Latest React with TypeScript
 - **React Router v7**: Client-side routing
-- **Okta Auth**: Enterprise-grade authentication
+- **Auth0**: Enterprise-grade authentication
 - **CSS Modules**: Scoped styling
 - **Type Safety**: Full TypeScript implementation
 - **Build System**: Create React App with optimizations
@@ -102,7 +102,7 @@
 
 ### For Chefs:
 1. Visit home page → Click "Chef Portal"
-2. Login with Okta credentials
+2. Login with Auth0 credentials
 3. See chef dashboard with existing meals
 4. Click "Add New Meal" to list a dish
 5. Fill form with meal details
@@ -112,7 +112,7 @@
 
 ### For Customers:
 1. Visit home page → Click "Browse Meals"
-2. Login with Okta credentials
+2. Login with Auth0 credentials
 3. See grid of available meals
 4. Search by keyword or filter by date
 5. View meal details (chef, description, price)
@@ -134,9 +134,8 @@ This is displayed:
 
 ## Security Features
 
-- OAuth 2.0 authentication via Okta
+- OAuth 2.0 authentication via Auth0
 - Protected routes requiring authentication
-- PKCE (Proof Key for Code Exchange) enabled
 - Secure token management
 - HTTPS redirect URIs configured
 - No hardcoded secrets (environment variables)
